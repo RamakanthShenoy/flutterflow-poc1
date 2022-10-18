@@ -1,10 +1,12 @@
+import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../department_highlights_page/department_highlights_page_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../flutter_flow/flutter_flow_widgets.dart';
+import '../login_page/login_page_widget.dart';
 import '../search_results_page/search_results_page_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePageWidget extends StatefulWidget {
@@ -43,11 +45,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               children: [
                 Align(
                   alignment: AlignmentDirectional(0, 0),
-                  child: Image.asset(
-                    'assets/images/Loginscreen.9ccd6687.png',
-                    width: double.infinity,
-                    height: 255,
-                    fit: BoxFit.cover,
+                  child: AuthUserStreamWidget(
+                    child: Image.network(
+                      valueOrDefault(currentUserDocument?.orgBgImage, ''),
+                      width: double.infinity,
+                      height: 255,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Align(
@@ -62,10 +66,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           child: Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(0, 0, 0, 17),
-                            child: SvgPicture.asset(
-                              'assets/images/assetlogo.svg',
-                              width: 120,
-                              fit: BoxFit.cover,
+                            child: AuthUserStreamWidget(
+                              child: Image.network(
+                                valueOrDefault(
+                                    currentUserDocument?.orgLogo, ''),
+                                width: 150,
+                                height: 60,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
@@ -310,6 +318,63 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         ),
                       ],
                     ),
+                  ),
+                ),
+                Align(
+                  alignment: AlignmentDirectional(-0.2, -0.4),
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(330, 250, 0, 0),
+                    child: FFButtonWidget(
+                      onPressed: () async {
+                        await signOut();
+                        await Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginPageWidget(),
+                          ),
+                          (r) => false,
+                        );
+                      },
+                      text: '',
+                      icon: Icon(
+                        Icons.logout,
+                        color: FlutterFlowTheme.of(context).primaryColor,
+                        size: 15,
+                      ),
+                      options: FFButtonOptions(
+                        width: 50,
+                        height: 40,
+                        color: FlutterFlowTheme.of(context).alternate,
+                        textStyle:
+                            FlutterFlowTheme.of(context).subtitle2.override(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                ),
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(250, 275, 0, 0),
+                  child: AuthUserStreamWidget(
+                    child: Text(
+                      valueOrDefault<bool>(currentUserDocument?.isAdmin, false)
+                          ? 'Admin'
+                          : 'Not Admin',
+                      style: FlutterFlowTheme.of(context).bodyText1,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(250, 255, 0, 0),
+                  child: Text(
+                    currentUserEmail,
+                    style: FlutterFlowTheme.of(context).bodyText1,
                   ),
                 ),
               ],
