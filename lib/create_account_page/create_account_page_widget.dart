@@ -1,12 +1,14 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../backend/firebase_storage/storage.dart';
+import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../flutter_flow/upload_media.dart';
 import '../login_page/login_page_widget.dart';
 import '../main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,6 +25,7 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
   bool isMediaUploading1 = false;
   String uploadedFileUrl1 = '';
 
+  String? dropDownOrgListValue;
   TextEditingController? confirmPasswordTextController;
 
   late bool passwordVisibility2;
@@ -30,13 +33,14 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
   TextEditingController? passwordTextController;
 
   late bool passwordVisibility1;
+  bool? chkIsAdminValue;
   TextEditingController? textController2;
-  bool? checkboxValue;
   TextEditingController? textController3;
   TextEditingController? textController4;
   bool isMediaUploading2 = false;
   String uploadedFileUrl2 = '';
 
+  OrganizationsRecord? orgDocumentOutput;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -385,84 +389,6 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                     width: 300,
                                     height: 50,
                                     decoration: BoxDecoration(
-                                      color: Color(0xFFE0E0E0),
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          20, 0, 20, 0),
-                                      child: TextFormField(
-                                        controller: textController2,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          hintText: 'Organisation',
-                                          hintStyle: GoogleFonts.getFont(
-                                            'Open Sans',
-                                            color: Color(0x7F455A64),
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                          errorBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                          focusedErrorBorder:
-                                              UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                        ),
-                                        style: GoogleFonts.getFont(
-                                          'Open Sans',
-                                          color: Color(0xFF455A64),
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      4, 0, 4, 15),
-                                  child: Container(
-                                    width: 300,
-                                    height: 50,
-                                    decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(0),
                                     ),
                                     child: Row(
@@ -480,10 +406,10 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                                 Color(0xFFF5F5F5),
                                           ),
                                           child: Checkbox(
-                                            value: checkboxValue ??= true,
+                                            value: chkIsAdminValue ??= true,
                                             onChanged: (newValue) async {
                                               setState(() =>
-                                                  checkboxValue = newValue!);
+                                                  chkIsAdminValue = newValue!);
                                             },
                                             activeColor:
                                                 FlutterFlowTheme.of(context)
@@ -499,323 +425,521 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      4, 0, 4, 15),
-                                  child: Container(
-                                    width: 300,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFE0E0E0),
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          20, 0, 20, 0),
-                                      child: TextFormField(
-                                        controller: textController3,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          hintText: 'No of Assets',
-                                          hintStyle: GoogleFonts.getFont(
-                                            'Open Sans',
-                                            color: Color(0x7F455A64),
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                          errorBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                          focusedErrorBorder:
-                                              UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                        ),
-                                        style: GoogleFonts.getFont(
-                                          'Open Sans',
-                                          color: Color(0xFF455A64),
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      4, 0, 4, 15),
-                                  child: Container(
-                                    width: 300,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFE0E0E0),
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          20, 0, 20, 0),
-                                      child: TextFormField(
-                                        controller: textController4,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          hintText: 'No of Employees',
-                                          hintStyle: GoogleFonts.getFont(
-                                            'Open Sans',
-                                            color: Color(0x7F455A64),
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                          errorBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                          focusedErrorBorder:
-                                              UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
-                                          ),
-                                        ),
-                                        style: GoogleFonts.getFont(
-                                          'Open Sans',
-                                          color: Color(0xFF455A64),
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      4, 0, 4, 15),
-                                  child: Container(
-                                    width: 300,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFE0E0E0),
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        final selectedMedia =
-                                            await selectMediaWithSourceBottomSheet(
-                                          context: context,
-                                          allowPhoto: true,
-                                        );
-                                        if (selectedMedia != null &&
-                                            selectedMedia.every((m) =>
-                                                validateFileFormat(
-                                                    m.storagePath, context))) {
-                                          setState(
-                                              () => isMediaUploading1 = true);
-                                          var downloadUrls = <String>[];
-                                          try {
-                                            showUploadMessage(
-                                              context,
-                                              'Uploading file...',
-                                              showLoading: true,
-                                            );
-                                            downloadUrls = (await Future.wait(
-                                              selectedMedia.map(
-                                                (m) async => await uploadData(
-                                                    m.storagePath, m.bytes),
-                                              ),
-                                            ))
-                                                .where((u) => u != null)
-                                                .map((u) => u!)
-                                                .toList();
-                                          } finally {
-                                            ScaffoldMessenger.of(context)
-                                                .hideCurrentSnackBar();
-                                            isMediaUploading1 = false;
-                                          }
-                                          if (downloadUrls.length ==
-                                              selectedMedia.length) {
-                                            setState(() => uploadedFileUrl1 =
-                                                downloadUrls.first);
-                                            showUploadMessage(
-                                                context, 'Success!');
-                                          } else {
-                                            setState(() {});
-                                            showUploadMessage(context,
-                                                'Failed to upload media');
-                                            return;
-                                          }
-                                        }
-                                      },
-                                      text: 'Upload Company Logo',
-                                      options: FFButtonOptions(
-                                        width: 130,
-                                        height: 40,
-                                        color: Color(0xFF0C0C0C),
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .subtitle2
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Color(0xFFDEDEDE),
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1,
-                                        ),
+                                if (!chkIsAdminValue!)
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        4, 0, 4, 15),
+                                    child: Container(
+                                      width: 300,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFE0E0E0),
                                         borderRadius: BorderRadius.circular(25),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      4, 0, 4, 15),
-                                  child: Container(
-                                    width: 300,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFFE0E0E0),
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        final selectedMedia =
-                                            await selectMediaWithSourceBottomSheet(
-                                          context: context,
-                                          allowPhoto: true,
-                                        );
-                                        if (selectedMedia != null &&
-                                            selectedMedia.every((m) =>
-                                                validateFileFormat(
-                                                    m.storagePath, context))) {
-                                          setState(
-                                              () => isMediaUploading2 = true);
-                                          var downloadUrls = <String>[];
-                                          try {
-                                            showUploadMessage(
-                                              context,
-                                              'Uploading file...',
-                                              showLoading: true,
+                                      child: Visibility(
+                                        visible: !chkIsAdminValue!,
+                                        child: StreamBuilder<
+                                            List<OrganizationsRecord>>(
+                                          stream: queryOrganizationsRecord(),
+                                          builder: (context, snapshot) {
+                                            // Customize what your widget looks like when it's loading.
+                                            if (!snapshot.hasData) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: 50,
+                                                  height: 50,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryColor,
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                            List<OrganizationsRecord>
+                                                dropDownOrgListOrganizationsRecordList =
+                                                snapshot.data!;
+                                            return FlutterFlowDropDown(
+                                              options:
+                                                  dropDownOrgListOrganizationsRecordList
+                                                      .map((e) =>
+                                                          e.organizationName!)
+                                                      .toList()
+                                                      .toList(),
+                                              onChanged: (val) async {
+                                                setState(() =>
+                                                    dropDownOrgListValue = val);
+                                                setState(() =>
+                                                    FFAppState().selectedOrg =
+                                                        dropDownOrgListValue!);
+                                              },
+                                              width: 180,
+                                              height: 50,
+                                              textStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily:
+                                                            'Playfair Display',
+                                                        color: Colors.black,
+                                                      ),
+                                              hintText: 'Please select...',
+                                              fillColor: Colors.white,
+                                              elevation: 2,
+                                              borderColor: Colors.transparent,
+                                              borderWidth: 0,
+                                              borderRadius: 0,
+                                              margin: EdgeInsetsDirectional
+                                                  .fromSTEB(12, 4, 12, 4),
+                                              hidesUnderline: true,
                                             );
-                                            downloadUrls = (await Future.wait(
-                                              selectedMedia.map(
-                                                (m) async => await uploadData(
-                                                    m.storagePath, m.bytes),
-                                              ),
-                                            ))
-                                                .where((u) => u != null)
-                                                .map((u) => u!)
-                                                .toList();
-                                          } finally {
-                                            ScaffoldMessenger.of(context)
-                                                .hideCurrentSnackBar();
-                                            isMediaUploading2 = false;
-                                          }
-                                          if (downloadUrls.length ==
-                                              selectedMedia.length) {
-                                            setState(() => uploadedFileUrl2 =
-                                                downloadUrls.first);
-                                            showUploadMessage(
-                                                context, 'Success!');
-                                          } else {
-                                            setState(() {});
-                                            showUploadMessage(context,
-                                                'Failed to upload media');
-                                            return;
-                                          }
-                                        }
-                                      },
-                                      text: 'Upload BG Image',
-                                      options: FFButtonOptions(
-                                        width: 130,
-                                        height: 40,
-                                        color: Color(0xFF0C0C0C),
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .subtitle2
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Color(0xFFDEDEDE),
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1,
+                                          },
                                         ),
-                                        borderRadius: BorderRadius.circular(25),
                                       ),
                                     ),
                                   ),
-                                ),
+                                if (chkIsAdminValue ?? true)
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        4, 0, 4, 15),
+                                    child: Container(
+                                      width: 300,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFE0E0E0),
+                                        borderRadius: BorderRadius.circular(25),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            20, 0, 20, 0),
+                                        child: TextFormField(
+                                          controller: textController2,
+                                          obscureText: false,
+                                          decoration: InputDecoration(
+                                            hintText: 'Organisation',
+                                            hintStyle: GoogleFonts.getFont(
+                                              'Open Sans',
+                                              color: Color(0x7F455A64),
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                            enabledBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0x00000000),
+                                                width: 1,
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                topLeft: Radius.circular(4.0),
+                                                topRight: Radius.circular(4.0),
+                                              ),
+                                            ),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0x00000000),
+                                                width: 1,
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                topLeft: Radius.circular(4.0),
+                                                topRight: Radius.circular(4.0),
+                                              ),
+                                            ),
+                                            errorBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0x00000000),
+                                                width: 1,
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                topLeft: Radius.circular(4.0),
+                                                topRight: Radius.circular(4.0),
+                                              ),
+                                            ),
+                                            focusedErrorBorder:
+                                                UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0x00000000),
+                                                width: 1,
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                topLeft: Radius.circular(4.0),
+                                                topRight: Radius.circular(4.0),
+                                              ),
+                                            ),
+                                          ),
+                                          style: GoogleFonts.getFont(
+                                            'Open Sans',
+                                            color: Color(0xFF455A64),
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                if (chkIsAdminValue ?? true)
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        4, 0, 4, 15),
+                                    child: Container(
+                                      width: 300,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFE0E0E0),
+                                        borderRadius: BorderRadius.circular(25),
+                                      ),
+                                      child: Visibility(
+                                        visible: chkIsAdminValue ?? true,
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  20, 0, 20, 0),
+                                          child: TextFormField(
+                                            controller: textController3,
+                                            obscureText: false,
+                                            decoration: InputDecoration(
+                                              hintText: 'No of Assets',
+                                              hintStyle: GoogleFonts.getFont(
+                                                'Open Sans',
+                                                color: Color(0x7F455A64),
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                              enabledBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Color(0x00000000),
+                                                  width: 1,
+                                                ),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  topLeft: Radius.circular(4.0),
+                                                  topRight:
+                                                      Radius.circular(4.0),
+                                                ),
+                                              ),
+                                              focusedBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Color(0x00000000),
+                                                  width: 1,
+                                                ),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  topLeft: Radius.circular(4.0),
+                                                  topRight:
+                                                      Radius.circular(4.0),
+                                                ),
+                                              ),
+                                              errorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Color(0x00000000),
+                                                  width: 1,
+                                                ),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  topLeft: Radius.circular(4.0),
+                                                  topRight:
+                                                      Radius.circular(4.0),
+                                                ),
+                                              ),
+                                              focusedErrorBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Color(0x00000000),
+                                                  width: 1,
+                                                ),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  topLeft: Radius.circular(4.0),
+                                                  topRight:
+                                                      Radius.circular(4.0),
+                                                ),
+                                              ),
+                                            ),
+                                            style: GoogleFonts.getFont(
+                                              'Open Sans',
+                                              color: Color(0xFF455A64),
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                if (chkIsAdminValue ?? true)
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        4, 0, 4, 15),
+                                    child: Container(
+                                      width: 300,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFE0E0E0),
+                                        borderRadius: BorderRadius.circular(25),
+                                      ),
+                                      child: Visibility(
+                                        visible: chkIsAdminValue ?? true,
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  20, 0, 20, 0),
+                                          child: TextFormField(
+                                            controller: textController4,
+                                            obscureText: false,
+                                            decoration: InputDecoration(
+                                              hintText: 'No of Employees',
+                                              hintStyle: GoogleFonts.getFont(
+                                                'Open Sans',
+                                                color: Color(0x7F455A64),
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                              enabledBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Color(0x00000000),
+                                                  width: 1,
+                                                ),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  topLeft: Radius.circular(4.0),
+                                                  topRight:
+                                                      Radius.circular(4.0),
+                                                ),
+                                              ),
+                                              focusedBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Color(0x00000000),
+                                                  width: 1,
+                                                ),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  topLeft: Radius.circular(4.0),
+                                                  topRight:
+                                                      Radius.circular(4.0),
+                                                ),
+                                              ),
+                                              errorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Color(0x00000000),
+                                                  width: 1,
+                                                ),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  topLeft: Radius.circular(4.0),
+                                                  topRight:
+                                                      Radius.circular(4.0),
+                                                ),
+                                              ),
+                                              focusedErrorBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Color(0x00000000),
+                                                  width: 1,
+                                                ),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  topLeft: Radius.circular(4.0),
+                                                  topRight:
+                                                      Radius.circular(4.0),
+                                                ),
+                                              ),
+                                            ),
+                                            style: GoogleFonts.getFont(
+                                              'Open Sans',
+                                              color: Color(0xFF455A64),
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                if (chkIsAdminValue ?? true)
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        4, 0, 4, 15),
+                                    child: Container(
+                                      width: 300,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFE0E0E0),
+                                        borderRadius: BorderRadius.circular(25),
+                                      ),
+                                      child: Visibility(
+                                        visible: chkIsAdminValue ?? true,
+                                        child: FFButtonWidget(
+                                          onPressed: () async {
+                                            final selectedMedia =
+                                                await selectMediaWithSourceBottomSheet(
+                                              context: context,
+                                              allowPhoto: true,
+                                            );
+                                            if (selectedMedia != null &&
+                                                selectedMedia.every((m) =>
+                                                    validateFileFormat(
+                                                        m.storagePath,
+                                                        context))) {
+                                              setState(() =>
+                                                  isMediaUploading1 = true);
+                                              var downloadUrls = <String>[];
+                                              try {
+                                                showUploadMessage(
+                                                  context,
+                                                  'Uploading file...',
+                                                  showLoading: true,
+                                                );
+                                                downloadUrls =
+                                                    (await Future.wait(
+                                                  selectedMedia.map(
+                                                    (m) async =>
+                                                        await uploadData(
+                                                            m.storagePath,
+                                                            m.bytes),
+                                                  ),
+                                                ))
+                                                        .where((u) => u != null)
+                                                        .map((u) => u!)
+                                                        .toList();
+                                              } finally {
+                                                ScaffoldMessenger.of(context)
+                                                    .hideCurrentSnackBar();
+                                                isMediaUploading1 = false;
+                                              }
+                                              if (downloadUrls.length ==
+                                                  selectedMedia.length) {
+                                                setState(() =>
+                                                    uploadedFileUrl1 =
+                                                        downloadUrls.first);
+                                                showUploadMessage(
+                                                    context, 'Success!');
+                                              } else {
+                                                setState(() {});
+                                                showUploadMessage(context,
+                                                    'Failed to upload media');
+                                                return;
+                                              }
+                                            }
+                                          },
+                                          text: 'Upload Company Logo',
+                                          options: FFButtonOptions(
+                                            width: 130,
+                                            height: 40,
+                                            color: Color(0xFF0C0C0C),
+                                            textStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .subtitle2
+                                                    .override(
+                                                      fontFamily: 'Poppins',
+                                                      color: Color(0xFFDEDEDE),
+                                                    ),
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
+                                              width: 1,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                if (chkIsAdminValue ?? true)
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        4, 0, 4, 15),
+                                    child: Container(
+                                      width: 300,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFE0E0E0),
+                                        borderRadius: BorderRadius.circular(25),
+                                      ),
+                                      child: Visibility(
+                                        visible: chkIsAdminValue ?? true,
+                                        child: FFButtonWidget(
+                                          onPressed: () async {
+                                            final selectedMedia =
+                                                await selectMediaWithSourceBottomSheet(
+                                              context: context,
+                                              allowPhoto: true,
+                                            );
+                                            if (selectedMedia != null &&
+                                                selectedMedia.every((m) =>
+                                                    validateFileFormat(
+                                                        m.storagePath,
+                                                        context))) {
+                                              setState(() =>
+                                                  isMediaUploading2 = true);
+                                              var downloadUrls = <String>[];
+                                              try {
+                                                showUploadMessage(
+                                                  context,
+                                                  'Uploading file...',
+                                                  showLoading: true,
+                                                );
+                                                downloadUrls =
+                                                    (await Future.wait(
+                                                  selectedMedia.map(
+                                                    (m) async =>
+                                                        await uploadData(
+                                                            m.storagePath,
+                                                            m.bytes),
+                                                  ),
+                                                ))
+                                                        .where((u) => u != null)
+                                                        .map((u) => u!)
+                                                        .toList();
+                                              } finally {
+                                                ScaffoldMessenger.of(context)
+                                                    .hideCurrentSnackBar();
+                                                isMediaUploading2 = false;
+                                              }
+                                              if (downloadUrls.length ==
+                                                  selectedMedia.length) {
+                                                setState(() =>
+                                                    uploadedFileUrl2 =
+                                                        downloadUrls.first);
+                                                showUploadMessage(
+                                                    context, 'Success!');
+                                              } else {
+                                                setState(() {});
+                                                showUploadMessage(context,
+                                                    'Failed to upload media');
+                                                return;
+                                              }
+                                            }
+                                          },
+                                          text: 'Upload BG Image',
+                                          options: FFButtonOptions(
+                                            width: 130,
+                                            height: 40,
+                                            color: Color(0xFF0C0C0C),
+                                            textStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .subtitle2
+                                                    .override(
+                                                      fontFamily: 'Poppins',
+                                                      color: Color(0xFFDEDEDE),
+                                                    ),
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
+                                              width: 1,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 20),
                                   child: FFButtonWidget(
                                     onPressed: () async {
+                                      Future Function() _navigate = () async {};
                                       if (passwordTextController?.text !=
                                           confirmPasswordTextController?.text) {
                                         ScaffoldMessenger.of(context)
@@ -840,27 +964,64 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
 
                                       final usersCreateData =
                                           createUsersRecordData(
-                                        organisation: textController2!.text,
-                                        isAdmin: checkboxValue,
-                                        noOfAssets:
-                                            int.parse(textController3!.text),
-                                        noOfEmployees:
-                                            int.parse(textController4!.text),
-                                        orgLogo: uploadedFileUrl1,
-                                        orgBgImage: uploadedFileUrl2,
+                                        isAdmin: chkIsAdminValue,
                                       );
                                       await UsersRecord.collection
                                           .doc(user.uid)
                                           .update(usersCreateData);
 
-                                      await Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => NavBarPage(
-                                              initialPage: 'HomePage'),
-                                        ),
-                                        (r) => false,
-                                      );
+                                      _navigate = () =>
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => NavBarPage(
+                                                  initialPage: 'HomePage'),
+                                            ),
+                                            (r) => false,
+                                          );
+                                      if (chkIsAdminValue!) {
+                                        final organizationsCreateData =
+                                            createOrganizationsRecordData(
+                                          createdTime: getCurrentTimestamp,
+                                          orgLogo: uploadedFileUrl1,
+                                          orgBgImage: uploadedFileUrl2,
+                                          noOfAssets:
+                                              int.parse(textController3!.text),
+                                          noOfEmployees:
+                                              int.parse(textController4!.text),
+                                          organizationName:
+                                              textController2!.text,
+                                        );
+                                        var organizationsRecordReference =
+                                            OrganizationsRecord.collection
+                                                .doc();
+                                        await organizationsRecordReference
+                                            .set(organizationsCreateData);
+                                        orgDocumentOutput = OrganizationsRecord
+                                            .getDocumentFromData(
+                                                organizationsCreateData,
+                                                organizationsRecordReference);
+
+                                        final usersUpdateData =
+                                            createUsersRecordData(
+                                          organization:
+                                              orgDocumentOutput!.reference,
+                                        );
+                                        await currentUserReference!
+                                            .update(usersUpdateData);
+                                      } else {
+                                        final usersUpdateData =
+                                            createUsersRecordData(
+                                          organization:
+                                              FFAppState().selectedOrgRef,
+                                        );
+                                        await currentUserReference!
+                                            .update(usersUpdateData);
+                                      }
+
+                                      await _navigate();
+
+                                      setState(() {});
                                     },
                                     text: 'Create Account',
                                     options: FFButtonOptions(

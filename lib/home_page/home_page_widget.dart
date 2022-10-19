@@ -1,5 +1,6 @@
 import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
+import '../backend/backend.dart';
 import '../department_highlights_page/department_highlights_page_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -46,11 +47,34 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 Align(
                   alignment: AlignmentDirectional(0, 0),
                   child: AuthUserStreamWidget(
-                    child: Image.network(
-                      valueOrDefault(currentUserDocument?.orgBgImage, ''),
-                      width: double.infinity,
-                      height: 255,
-                      fit: BoxFit.cover,
+                    child: StreamBuilder<OrganizationsRecord>(
+                      stream: OrganizationsRecord.getDocument(
+                          currentUserDocument!.organization!),
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: CircularProgressIndicator(
+                                color:
+                                    FlutterFlowTheme.of(context).primaryColor,
+                              ),
+                            ),
+                          );
+                        }
+                        final imageOrganizationsRecord = snapshot.data!;
+                        return Image.network(
+                          valueOrDefault<String>(
+                            imageOrganizationsRecord.orgBgImage,
+                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/poc1-td2c83/assets/8852bhuwvrfg/Loginscreen.9ccd6687.png',
+                          ),
+                          width: double.infinity,
+                          height: 255,
+                          fit: BoxFit.cover,
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -67,12 +91,35 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(0, 0, 0, 17),
                             child: AuthUserStreamWidget(
-                              child: Image.network(
-                                valueOrDefault(
-                                    currentUserDocument?.orgLogo, ''),
-                                width: 150,
-                                height: 60,
-                                fit: BoxFit.cover,
+                              child: StreamBuilder<OrganizationsRecord>(
+                                stream: OrganizationsRecord.getDocument(
+                                    currentUserDocument!.organization!),
+                                builder: (context, snapshot) {
+                                  // Customize what your widget looks like when it's loading.
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50,
+                                        height: 50,
+                                        child: CircularProgressIndicator(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryColor,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  final imageOrganizationsRecord =
+                                      snapshot.data!;
+                                  return Image.network(
+                                    valueOrDefault<String>(
+                                      imageOrganizationsRecord.orgLogo,
+                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/poc1-td2c83/assets/go4fh70terv0/assetlogo.svg',
+                                    ),
+                                    width: 150,
+                                    height: 60,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
                               ),
                             ),
                           ),

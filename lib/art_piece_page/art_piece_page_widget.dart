@@ -391,14 +391,7 @@ class _ArtPiecePageWidgetState extends State<ArtPiecePageWidget> {
                     alignment: AlignmentDirectional(0, 0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        final usersUpdateData = {
-                          'favorites': FieldValue.arrayUnion([
-                            getJsonField(
-                              widget.artPiece,
-                              r'''$.objectID''',
-                            )
-                          ]),
-                        };
+                        final usersUpdateData = createUsersRecordData();
                         await currentUserReference!.update(usersUpdateData);
                         await Navigator.push(
                           context,

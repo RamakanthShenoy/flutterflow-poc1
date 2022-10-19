@@ -69,13 +69,6 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.organisation;
-    if (value != null) {
-      result
-        ..add('organisation')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
     value = object.isAdmin;
     if (value != null) {
       result
@@ -83,31 +76,13 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
         ..add(
             serializers.serialize(value, specifiedType: const FullType(bool)));
     }
-    value = object.orgLogo;
+    value = object.organization;
     if (value != null) {
       result
-        ..add('org_logo')
+        ..add('organization')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.orgBgImage;
-    if (value != null) {
-      result
-        ..add('org_bg_image')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.noOfAssets;
-    if (value != null) {
-      result
-        ..add('no_of_assets')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
-    }
-    value = object.noOfEmployees;
-    if (value != null) {
-      result
-        ..add('no_of_employees')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+            specifiedType: const FullType(
+                DocumentReference, const [const FullType.nullable(Object)])));
     }
     value = object.ffRef;
     if (value != null) {
@@ -161,29 +136,15 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
           result.phoneNumber = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'organisation':
-          result.organisation = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
         case 'is_admin':
           result.isAdmin = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool?;
           break;
-        case 'org_logo':
-          result.orgLogo = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'org_bg_image':
-          result.orgBgImage = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'no_of_assets':
-          result.noOfAssets = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
-          break;
-        case 'no_of_employees':
-          result.noOfEmployees = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+        case 'organization':
+          result.organization = serializers.deserialize(value,
+              specifiedType: const FullType(DocumentReference, const [
+                const FullType.nullable(Object)
+              ])) as DocumentReference<Object?>?;
           break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
@@ -214,17 +175,9 @@ class _$UsersRecord extends UsersRecord {
   @override
   final String? phoneNumber;
   @override
-  final String? organisation;
-  @override
   final bool? isAdmin;
   @override
-  final String? orgLogo;
-  @override
-  final String? orgBgImage;
-  @override
-  final int? noOfAssets;
-  @override
-  final int? noOfEmployees;
+  final DocumentReference<Object?>? organization;
   @override
   final DocumentReference<Object?>? ffRef;
 
@@ -239,12 +192,8 @@ class _$UsersRecord extends UsersRecord {
       this.createdTime,
       this.favorites,
       this.phoneNumber,
-      this.organisation,
       this.isAdmin,
-      this.orgLogo,
-      this.orgBgImage,
-      this.noOfAssets,
-      this.noOfEmployees,
+      this.organization,
       this.ffRef})
       : super._();
 
@@ -266,12 +215,8 @@ class _$UsersRecord extends UsersRecord {
         createdTime == other.createdTime &&
         favorites == other.favorites &&
         phoneNumber == other.phoneNumber &&
-        organisation == other.organisation &&
         isAdmin == other.isAdmin &&
-        orgLogo == other.orgLogo &&
-        orgBgImage == other.orgBgImage &&
-        noOfAssets == other.noOfAssets &&
-        noOfEmployees == other.noOfEmployees &&
+        organization == other.organization &&
         ffRef == other.ffRef;
   }
 
@@ -285,23 +230,15 @@ class _$UsersRecord extends UsersRecord {
                         $jc(
                             $jc(
                                 $jc(
-                                    $jc(
-                                        $jc(
-                                            $jc(
-                                                $jc(
-                                                    $jc($jc(0, email.hashCode),
-                                                        displayName.hashCode),
-                                                    photoUrl.hashCode),
-                                                uid.hashCode),
-                                            createdTime.hashCode),
-                                        favorites.hashCode),
-                                    phoneNumber.hashCode),
-                                organisation.hashCode),
-                            isAdmin.hashCode),
-                        orgLogo.hashCode),
-                    orgBgImage.hashCode),
-                noOfAssets.hashCode),
-            noOfEmployees.hashCode),
+                                    $jc($jc(0, email.hashCode),
+                                        displayName.hashCode),
+                                    photoUrl.hashCode),
+                                uid.hashCode),
+                            createdTime.hashCode),
+                        favorites.hashCode),
+                    phoneNumber.hashCode),
+                isAdmin.hashCode),
+            organization.hashCode),
         ffRef.hashCode));
   }
 
@@ -315,12 +252,8 @@ class _$UsersRecord extends UsersRecord {
           ..add('createdTime', createdTime)
           ..add('favorites', favorites)
           ..add('phoneNumber', phoneNumber)
-          ..add('organisation', organisation)
           ..add('isAdmin', isAdmin)
-          ..add('orgLogo', orgLogo)
-          ..add('orgBgImage', orgBgImage)
-          ..add('noOfAssets', noOfAssets)
-          ..add('noOfEmployees', noOfEmployees)
+          ..add('organization', organization)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -358,30 +291,14 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
   String? get phoneNumber => _$this._phoneNumber;
   set phoneNumber(String? phoneNumber) => _$this._phoneNumber = phoneNumber;
 
-  String? _organisation;
-  String? get organisation => _$this._organisation;
-  set organisation(String? organisation) => _$this._organisation = organisation;
-
   bool? _isAdmin;
   bool? get isAdmin => _$this._isAdmin;
   set isAdmin(bool? isAdmin) => _$this._isAdmin = isAdmin;
 
-  String? _orgLogo;
-  String? get orgLogo => _$this._orgLogo;
-  set orgLogo(String? orgLogo) => _$this._orgLogo = orgLogo;
-
-  String? _orgBgImage;
-  String? get orgBgImage => _$this._orgBgImage;
-  set orgBgImage(String? orgBgImage) => _$this._orgBgImage = orgBgImage;
-
-  int? _noOfAssets;
-  int? get noOfAssets => _$this._noOfAssets;
-  set noOfAssets(int? noOfAssets) => _$this._noOfAssets = noOfAssets;
-
-  int? _noOfEmployees;
-  int? get noOfEmployees => _$this._noOfEmployees;
-  set noOfEmployees(int? noOfEmployees) =>
-      _$this._noOfEmployees = noOfEmployees;
+  DocumentReference<Object?>? _organization;
+  DocumentReference<Object?>? get organization => _$this._organization;
+  set organization(DocumentReference<Object?>? organization) =>
+      _$this._organization = organization;
 
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
@@ -401,12 +318,8 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
       _createdTime = $v.createdTime;
       _favorites = $v.favorites?.toBuilder();
       _phoneNumber = $v.phoneNumber;
-      _organisation = $v.organisation;
       _isAdmin = $v.isAdmin;
-      _orgLogo = $v.orgLogo;
-      _orgBgImage = $v.orgBgImage;
-      _noOfAssets = $v.noOfAssets;
-      _noOfEmployees = $v.noOfEmployees;
+      _organization = $v.organization;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -439,12 +352,8 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
               createdTime: createdTime,
               favorites: _favorites?.build(),
               phoneNumber: phoneNumber,
-              organisation: organisation,
               isAdmin: isAdmin,
-              orgLogo: orgLogo,
-              orgBgImage: orgBgImage,
-              noOfAssets: noOfAssets,
-              noOfEmployees: noOfEmployees,
+              organization: organization,
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;
