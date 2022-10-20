@@ -32,6 +32,9 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
 
   DocumentReference? get organization;
 
+  @BuiltValueField(wireName: 'emp_org_name')
+  String? get empOrgName;
+
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference? get ffRef;
   DocumentReference get reference => ffRef!;
@@ -43,7 +46,8 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..uid = ''
     ..favorites = ListBuilder()
     ..phoneNumber = ''
-    ..isAdmin = false;
+    ..isAdmin = false
+    ..empOrgName = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('users');
@@ -75,6 +79,7 @@ Map<String, dynamic> createUsersRecordData({
   String? phoneNumber,
   bool? isAdmin,
   DocumentReference? organization,
+  String? empOrgName,
 }) {
   final firestoreData = serializers.toFirestore(
     UsersRecord.serializer,
@@ -88,7 +93,8 @@ Map<String, dynamic> createUsersRecordData({
         ..favorites = null
         ..phoneNumber = phoneNumber
         ..isAdmin = isAdmin
-        ..organization = organization,
+        ..organization = organization
+        ..empOrgName = empOrgName,
     ),
   );
 

@@ -937,108 +937,153 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0, 0, 0, 20),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      Future Function() _navigate = () async {};
-                                      if (passwordTextController?.text !=
-                                          confirmPasswordTextController?.text) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Passwords don\'t match!',
+                                  child:
+                                      StreamBuilder<List<OrganizationsRecord>>(
+                                    stream: queryOrganizationsRecord(
+                                      queryBuilder: (organizationsRecord) =>
+                                          organizationsRecord.where(
+                                              'organization_name',
+                                              isEqualTo:
+                                                  FFAppState().selectedOrg),
+                                      singleRecord: true,
+                                    ),
+                                    builder: (context, snapshot) {
+                                      // Customize what your widget looks like when it's loading.
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 50,
+                                            height: 50,
+                                            child: CircularProgressIndicator(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryColor,
                                             ),
                                           ),
                                         );
-                                        return;
                                       }
+                                      List<OrganizationsRecord>
+                                          buttonOrganizationsRecordList =
+                                          snapshot.data!;
+                                      final buttonOrganizationsRecord =
+                                          buttonOrganizationsRecordList
+                                                  .isNotEmpty
+                                              ? buttonOrganizationsRecordList
+                                                  .first
+                                              : null;
+                                      return FFButtonWidget(
+                                        onPressed: () async {
+                                          Future Function() _navigate =
+                                              () async {};
+                                          if (passwordTextController?.text !=
+                                              confirmPasswordTextController
+                                                  ?.text) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Passwords don\'t match!',
+                                                ),
+                                              ),
+                                            );
+                                            return;
+                                          }
 
-                                      final user = await createAccountWithEmail(
-                                        context,
-                                        emailTextController!.text,
-                                        passwordTextController!.text,
-                                      );
-                                      if (user == null) {
-                                        return;
-                                      }
-
-                                      final usersCreateData =
-                                          createUsersRecordData(
-                                        isAdmin: chkIsAdminValue,
-                                      );
-                                      await UsersRecord.collection
-                                          .doc(user.uid)
-                                          .update(usersCreateData);
-
-                                      _navigate = () =>
-                                          Navigator.pushAndRemoveUntil(
+                                          final user =
+                                              await createAccountWithEmail(
                                             context,
-                                            MaterialPageRoute(
-                                              builder: (context) => NavBarPage(
-                                                  initialPage: 'HomePage'),
-                                            ),
-                                            (r) => false,
+                                            emailTextController!.text,
+                                            passwordTextController!.text,
                                           );
-                                      if (chkIsAdminValue!) {
-                                        final organizationsCreateData =
-                                            createOrganizationsRecordData(
-                                          createdTime: getCurrentTimestamp,
-                                          orgLogo: uploadedFileUrl1,
-                                          orgBgImage: uploadedFileUrl2,
-                                          noOfAssets:
-                                              int.parse(textController3!.text),
-                                          noOfEmployees:
-                                              int.parse(textController4!.text),
-                                          organizationName:
-                                              textController2!.text,
-                                        );
-                                        var organizationsRecordReference =
-                                            OrganizationsRecord.collection
-                                                .doc();
-                                        await organizationsRecordReference
-                                            .set(organizationsCreateData);
-                                        orgDocumentOutput = OrganizationsRecord
-                                            .getDocumentFromData(
-                                                organizationsCreateData,
-                                                organizationsRecordReference);
+                                          if (user == null) {
+                                            return;
+                                          }
 
-                                        final usersUpdateData =
-                                            createUsersRecordData(
-                                          organization:
-                                              orgDocumentOutput!.reference,
-                                        );
-                                        await currentUserReference!
-                                            .update(usersUpdateData);
-                                      } else {
-                                        final usersUpdateData =
-                                            createUsersRecordData(
-                                          organization:
-                                              FFAppState().selectedOrgRef,
-                                        );
-                                        await currentUserReference!
-                                            .update(usersUpdateData);
-                                      }
+                                          final usersCreateData =
+                                              createUsersRecordData(
+                                            isAdmin: chkIsAdminValue,
+                                          );
+                                          await UsersRecord.collection
+                                              .doc(user.uid)
+                                              .update(usersCreateData);
 
-                                      await _navigate();
+                                          _navigate = () =>
+                                              Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      NavBarPage(
+                                                          initialPage:
+                                                              'HomePage'),
+                                                ),
+                                                (r) => false,
+                                              );
+                                          if (chkIsAdminValue!) {
+                                            final organizationsCreateData =
+                                                createOrganizationsRecordData(
+                                              createdTime: getCurrentTimestamp,
+                                              orgLogo: uploadedFileUrl1,
+                                              orgBgImage: uploadedFileUrl2,
+                                              noOfAssets: int.parse(
+                                                  textController3!.text),
+                                              noOfEmployees: int.parse(
+                                                  textController4!.text),
+                                              organizationName:
+                                                  textController2!.text,
+                                            );
+                                            var organizationsRecordReference =
+                                                OrganizationsRecord.collection
+                                                    .doc();
+                                            await organizationsRecordReference
+                                                .set(organizationsCreateData);
+                                            orgDocumentOutput = OrganizationsRecord
+                                                .getDocumentFromData(
+                                                    organizationsCreateData,
+                                                    organizationsRecordReference);
 
-                                      setState(() {});
+                                            final usersUpdateData =
+                                                createUsersRecordData(
+                                              organization:
+                                                  orgDocumentOutput!.reference,
+                                            );
+                                            await currentUserReference!
+                                                .update(usersUpdateData);
+                                          } else {
+                                            final usersUpdateData =
+                                                createUsersRecordData(
+                                              empOrgName:
+                                                  FFAppState().selectedOrg,
+                                              organization:
+                                                  buttonOrganizationsRecord!
+                                                      .reference,
+                                            );
+                                            await currentUserReference!
+                                                .update(usersUpdateData);
+                                          }
+
+                                          await _navigate();
+
+                                          setState(() {});
+                                        },
+                                        text: 'Create Account',
+                                        options: FFButtonOptions(
+                                          width: 300,
+                                          height: 50,
+                                          color: Colors.black,
+                                          textStyle: GoogleFonts.getFont(
+                                            'Open Sans',
+                                            color: Color(0xFFDEDEDE),
+                                            fontSize: 16,
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                        ),
+                                      );
                                     },
-                                    text: 'Create Account',
-                                    options: FFButtonOptions(
-                                      width: 300,
-                                      height: 50,
-                                      color: Colors.black,
-                                      textStyle: GoogleFonts.getFont(
-                                        'Open Sans',
-                                        color: Color(0xFFDEDEDE),
-                                        fontSize: 16,
-                                      ),
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
                                   ),
                                 ),
                                 InkWell(

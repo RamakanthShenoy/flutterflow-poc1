@@ -84,6 +84,13 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
             specifiedType: const FullType(
                 DocumentReference, const [const FullType.nullable(Object)])));
     }
+    value = object.empOrgName;
+    if (value != null) {
+      result
+        ..add('emp_org_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.ffRef;
     if (value != null) {
       result
@@ -146,6 +153,10 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
                 const FullType.nullable(Object)
               ])) as DocumentReference<Object?>?;
           break;
+        case 'emp_org_name':
+          result.empOrgName = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'Document__Reference__Field':
           result.ffRef = serializers.deserialize(value,
               specifiedType: const FullType(DocumentReference, const [
@@ -179,6 +190,8 @@ class _$UsersRecord extends UsersRecord {
   @override
   final DocumentReference<Object?>? organization;
   @override
+  final String? empOrgName;
+  @override
   final DocumentReference<Object?>? ffRef;
 
   factory _$UsersRecord([void Function(UsersRecordBuilder)? updates]) =>
@@ -194,6 +207,7 @@ class _$UsersRecord extends UsersRecord {
       this.phoneNumber,
       this.isAdmin,
       this.organization,
+      this.empOrgName,
       this.ffRef})
       : super._();
 
@@ -217,6 +231,7 @@ class _$UsersRecord extends UsersRecord {
         phoneNumber == other.phoneNumber &&
         isAdmin == other.isAdmin &&
         organization == other.organization &&
+        empOrgName == other.empOrgName &&
         ffRef == other.ffRef;
   }
 
@@ -230,15 +245,17 @@ class _$UsersRecord extends UsersRecord {
                         $jc(
                             $jc(
                                 $jc(
-                                    $jc($jc(0, email.hashCode),
-                                        displayName.hashCode),
-                                    photoUrl.hashCode),
-                                uid.hashCode),
-                            createdTime.hashCode),
-                        favorites.hashCode),
-                    phoneNumber.hashCode),
-                isAdmin.hashCode),
-            organization.hashCode),
+                                    $jc(
+                                        $jc($jc(0, email.hashCode),
+                                            displayName.hashCode),
+                                        photoUrl.hashCode),
+                                    uid.hashCode),
+                                createdTime.hashCode),
+                            favorites.hashCode),
+                        phoneNumber.hashCode),
+                    isAdmin.hashCode),
+                organization.hashCode),
+            empOrgName.hashCode),
         ffRef.hashCode));
   }
 
@@ -254,6 +271,7 @@ class _$UsersRecord extends UsersRecord {
           ..add('phoneNumber', phoneNumber)
           ..add('isAdmin', isAdmin)
           ..add('organization', organization)
+          ..add('empOrgName', empOrgName)
           ..add('ffRef', ffRef))
         .toString();
   }
@@ -300,6 +318,10 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
   set organization(DocumentReference<Object?>? organization) =>
       _$this._organization = organization;
 
+  String? _empOrgName;
+  String? get empOrgName => _$this._empOrgName;
+  set empOrgName(String? empOrgName) => _$this._empOrgName = empOrgName;
+
   DocumentReference<Object?>? _ffRef;
   DocumentReference<Object?>? get ffRef => _$this._ffRef;
   set ffRef(DocumentReference<Object?>? ffRef) => _$this._ffRef = ffRef;
@@ -320,6 +342,7 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
       _phoneNumber = $v.phoneNumber;
       _isAdmin = $v.isAdmin;
       _organization = $v.organization;
+      _empOrgName = $v.empOrgName;
       _ffRef = $v.ffRef;
       _$v = null;
     }
@@ -354,6 +377,7 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
               phoneNumber: phoneNumber,
               isAdmin: isAdmin,
               organization: organization,
+              empOrgName: empOrgName,
               ffRef: ffRef);
     } catch (_) {
       late String _$failedField;

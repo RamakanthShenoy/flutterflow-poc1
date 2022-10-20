@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'auth_util.dart';
-
 class Poc1FirebaseUser {
   Poc1FirebaseUser(this.user);
   User? user;
@@ -19,7 +17,6 @@ Stream<Poc1FirebaseUser> poc1FirebaseUserStream() => FirebaseAuth.instance
         .map<Poc1FirebaseUser>(
       (user) {
         currentUser = Poc1FirebaseUser(user);
-        updateUserJwtTimer(user);
         return currentUser!;
       },
     );
